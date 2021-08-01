@@ -2,16 +2,12 @@ FROM python:3.9.6
 
 USER root
 
-RUN pip install piprot==0.9.11
+RUN pip install piprot==0.9.11 requests==2.26.0
 
-COPY run.sh run.sh
-
-RUN chmod +x run.sh
-
-ENV REQUIREMENTS_FILE="requirements.txt"
+COPY pipe /
 
 USER 1001
 
-ENTRYPOINT ["bin/bash"]
+RUN ls
 
-CMD ["run.sh"]
+ENTRYPOINT ["python3", "/piprot_scan.py"]
