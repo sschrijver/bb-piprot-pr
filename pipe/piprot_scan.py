@@ -13,6 +13,7 @@ ENV_VARS = [
     "BITBUCKET_PR_ID",
     "BITBUCKET_REPO_SLUG",
     "BITBUCKET_WORKSPACE",
+    "BITBUCKET_CLONE_DIR",
     "BITBUCKET_USER",
     "BITBUCKET_PWD"
 ]
@@ -93,8 +94,9 @@ def main(requirements_file_path: str,
          bb_pr_id: str,
          username: str,
          password: str):
-    __check_existence_requirements_file(requirements_file_path=requirements_file_path)
-    piprot_output = __get_outdated_dependencies(requirements_file_path=requirements_file_path)
+    complete_requirements_file_path = f"{os.environ['BITBUCKET_CLONE_DIR']}/{requirements_file_path}"
+    __check_existence_requirements_file(requirements_file_path=complete_requirements_file_path)
+    piprot_output = __get_outdated_dependencies(requirements_file_path=complete_requirements_file_path)
     request_body = __get_request_body(piprot_output=piprot_output)
     __create_pr_comment(request_body=request_body,
                         bb_workspace=bb_workspace,
